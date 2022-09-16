@@ -1,12 +1,12 @@
 # these are the task i shall be performing. 
 # 
-# 1. Merges the training and the test sets to create one data set.
+
 # 
-# 2. Extracts only the measurements on the mean and standard deviation for each measurement. 
 # 
-# 3. Uses descriptive activity names to name the activities in the data set
 # 
-# 4. Appropriately labels the data set with descriptive variable names. 
+#
+# 
+#
 # 
 # 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
@@ -40,6 +40,7 @@ if(!require("reshape2")){
   library(reshape2)
 }
 
+#Task 3. Uses descriptive activity names to name the activities in the data set
 current_directory<-"./"
 # reading the data from d datasets
 
@@ -52,6 +53,7 @@ features <- fread(file.path(current_directory, "UCI HAR Dataset/features.txt")
                   , col.names = c("index", "featureNames"))
 
 # get indices for rows containing either of these string format mean() or std()
+# task 2. Extracts only the measurements on the mean and standard deviation for each measurement. 
 featuresWanted <- grep("(mean|std)\\(\\)", features[, featureNames])
 # use indices obtained from the featuresWanted to extract the desired entry
 measurements <- features[featuresWanted, featureNames]
@@ -59,7 +61,7 @@ measurements <- features[featuresWanted, featureNames]
 measurements <- gsub('[()]', '', measurements)
 
 
-
+#task 4.Appropriately labels the data set with descriptive variable names. 
 # reading the training dataset
 train <- fread(file.path(current_directory, "UCI HAR Dataset/train/X_train.txt"))[, featuresWanted, with = FALSE]
 #replacing the default column names of train dataset with data extracted from measurement
@@ -85,5 +87,6 @@ test_Subjects <- fread(file.path(current_directory, "UCI HAR Dataset/test/subjec
                       , col.names = c("SubjectNum"))
 test <- cbind(test_Subjects, test_Activities, test)
 
+# task 1. Merges the training and the test sets to create one data set.
 #combining rows of test and train into a single dataset
 combined_data <- rbind(train, test) # merging the train and test dataset
