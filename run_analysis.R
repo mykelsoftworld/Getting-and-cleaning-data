@@ -68,7 +68,7 @@ train_Subjects <- fread(file.path(current_directory, "UCI HAR Dataset/train/subj
                        , col.names = c("SubjectNum"))
 train <- cbind(train_Subjects, train_Activities, train)
 
-# reading the training dataset
+# reading the test dataset
 test <- fread(file.path(current_directory, "UCI HAR Dataset/test/X_test.txt"))[, featuresWanted, with = FALSE]
 
 #replacing the default column names of train dataset with data extracted from measurement
