@@ -90,7 +90,7 @@ combined_data <- rbind(train, test) # merging the train and test dataset
 #   with the average of each variable for each activity and each subject.
 
 factor_1<-factor(combined_data$SubjectNum)
-factor_2<-factor(combined_data$Activity)
+factor_2<-factor(combined_data$Activity,levels = activity_labels[["classLabels"]],labels = activity_labels[["activityName"]])
 factor_combinations<-list(factor_1,factor_2)
 average_per_activity_per_person<-lapply(split(combined_data, factor_combinations),function(x) {
                                               colMeans(x[,3:ncol(x)],
@@ -102,13 +102,6 @@ average_per_activity_per_person <-data.frame(t(data.frame(average_per_activity_p
 
 # colMeans(combined_data[,3:ncol(combined_data)],na.rm=TRUE)
 
-combined_data[["Activity"]] <- factor(combined_data[, Activity]
-                                 , levels = activity_labels[["classLabels"]]
-                                 , labels = activity_labels[["activityName"]])
-
-combined_data[["SubjectNum"]] <- as.factor(combined_data[, SubjectNum])
-combined_data <- reshape2::melt(data = combined_data, id = c("SubjectNum", "Activity"))
-combined_data <- reshape2::dcast(data = combined_data, SubjectNum + Activity ~ variable, fun.aggregate = mean)
-
-data.table::fwrite(x = combined_data, file = "tidyData.txt", quote = FALSE)
+# store the result i a text file
+data.table::fwrite(x = average_per_activity_per_person, file = "average_per_activity_per_person.txt", quote = FALSE)
 
