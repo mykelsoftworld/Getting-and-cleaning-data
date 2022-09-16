@@ -79,11 +79,11 @@ test <- fread(file.path(path, "UCI HAR Dataset/test/X_test.txt"))[, featuresWant
 setnames(test, colnames(test), measurements)
 
 # reading y testng label datasets
-testActivities <- fread(file.path(path, "UCI HAR Dataset/test/Y_test.txt")
+test_Activities <- fread(file.path(path, "UCI HAR Dataset/test/Y_test.txt")
                         , col.names = c("Activity"))
 testSubjects <- fread(file.path(path, "UCI HAR Dataset/test/subject_test.txt")
                       , col.names = c("SubjectNum"))
-test <- cbind(testSubjects, testActivities, test)
+test <- cbind(testSubjects, test_Activities, test)
 
 #combining test and train dataset
 combined_data <- rbind(train, test) # merging the train and test dataset
