@@ -10,7 +10,7 @@
 # 
 # 5. From the data set in step 4, creates a second, independent tidy data set with the average of each variable for each activity and each subject.
 
-# Load Packages and get the Data
+# Load Packages if required
 
 if(!require("tidyverse")){
   install.packages("tidyverse")
@@ -68,9 +68,9 @@ setnames(train, colnames(train), measurements)
 # reading y training label datasets
 train_Activities <- fread(file.path(path, "UCI HAR Dataset/train/Y_train.txt")
                          , col.names = c("Activity"))
-trainSubjects <- fread(file.path(path, "UCI HAR Dataset/train/subject_train.txt")
+train_Subjects <- fread(file.path(path, "UCI HAR Dataset/train/subject_train.txt")
                        , col.names = c("SubjectNum"))
-train <- cbind(trainSubjects, trainActivities, train)
+train <- cbind(train_Subjects, train_Activities, train)
 
 # reading the training dataset
 test <- fread(file.path(path, "UCI HAR Dataset/test/X_test.txt"))[, featuresWanted, with = FALSE]
@@ -81,9 +81,9 @@ setnames(test, colnames(test), measurements)
 # reading y testng label datasets
 test_Activities <- fread(file.path(path, "UCI HAR Dataset/test/Y_test.txt")
                         , col.names = c("Activity"))
-testSubjects <- fread(file.path(path, "UCI HAR Dataset/test/subject_test.txt")
+test_Subjects <- fread(file.path(path, "UCI HAR Dataset/test/subject_test.txt")
                       , col.names = c("SubjectNum"))
-test <- cbind(testSubjects, test_Activities, test)
+test <- cbind(test_Subjects, test_Activities, test)
 
-#combining test and train dataset
+#combining rows of test and train into a single dataset
 combined_data <- rbind(train, test) # merging the train and test dataset
