@@ -20,10 +20,6 @@ if(!require("tidyr")){
   library(tidyr)
 }
 
-if(!require("lubridate")){
-  install.packages("lubridate")                                       #helps in date formats
-  library(lubridate)
-}
 
 if(!require("dplyr")){
   install.packages("dplyr")
@@ -34,10 +30,7 @@ if(!require("data.table")){
   install.packages("data.table")
   library(data.table)
 }
-if(!require("reshape2")){
-  install.packages("reshape2")
-  library(reshape2)
-}
+
 
 #TASK 3. Uses descriptive activity names to name the activities in the data set
 current_directory<-"./"
@@ -106,4 +99,14 @@ average_per_activity_per_person<-lapply(split(combined_data, factor_combinations
 average_per_activity_per_person <-data.frame(t(data.frame(average_per_activity_per_person)))
 
 # colMeans(combined_data[,3:ncol(combined_data)],na.rm=TRUE)
+
+combined_data[["Activity"]] <- factor(combined_data[, Activity]
+                                 , levels = activity_labels[["classLabels"]]
+                                 , labels = activity_labels[["activityName"]])
+
+combined_data[["SubjectNum"]] <- as.factor(combined_data[, SubjectNum])
+combined_data <- reshape2::melt(data = combined_data, id = c("SubjectNum", "Activity"))
+combined_data <- reshape2::dcast(data = combined_data, SubjectNum + Activity ~ variable, fun.aggregate = mean)
+
+data.table::fwrite(x = combined_data, file = "tidyData.txt", quote = FALSE)
 
