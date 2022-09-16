@@ -40,15 +40,15 @@ if(!require("reshape2")){
   library(reshape2)
 }
 
-path<-"./"
+current_directory<-"./"
 # reading the data from d datasets
 
 # deafault sep set to auto by default as such space is selected as a delimiter to separating entry into columns from columns
 
-activity_labels <- fread(file.path(path, "UCI HAR Dataset/activity_labels.txt")
+activity_labels <- fread(file.path(current_directory, "UCI HAR Dataset/activity_labels.txt")
                         , col.names = c("classLabels", "activityName"))     
 
-features <- fread(file.path(path, "UCI HAR Dataset/features.txt")
+features <- fread(file.path(current_directory, "UCI HAR Dataset/features.txt")
                   , col.names = c("index", "featureNames"))
 
 # get indices for rows containing either of these string format mean() or std()
@@ -61,27 +61,27 @@ measurements <- gsub('[()]', '', measurements)
 
 
 # reading the training dataset
-train <- fread(file.path(path, "UCI HAR Dataset/train/X_train.txt"))[, featuresWanted, with = FALSE]
+train <- fread(file.path(current_directory, "UCI HAR Dataset/train/X_train.txt"))[, featuresWanted, with = FALSE]
 #replacing the default column names of train dataset with data extracted from measurement
 setnames(train, colnames(train), measurements)
 
 # reading y training label datasets
-train_Activities <- fread(file.path(path, "UCI HAR Dataset/train/Y_train.txt")
+train_Activities <- fread(file.path(current_directory, "UCI HAR Dataset/train/Y_train.txt")
                          , col.names = c("Activity"))
-train_Subjects <- fread(file.path(path, "UCI HAR Dataset/train/subject_train.txt")
+train_Subjects <- fread(file.path(current_directory, "UCI HAR Dataset/train/subject_train.txt")
                        , col.names = c("SubjectNum"))
 train <- cbind(train_Subjects, train_Activities, train)
 
 # reading the training dataset
-test <- fread(file.path(path, "UCI HAR Dataset/test/X_test.txt"))[, featuresWanted, with = FALSE]
+test <- fread(file.path(current_directory, "UCI HAR Dataset/test/X_test.txt"))[, featuresWanted, with = FALSE]
 
 #replacing the default column names of train dataset with data extracted from measurement
 setnames(test, colnames(test), measurements)
 
 # reading y testng label datasets
-test_Activities <- fread(file.path(path, "UCI HAR Dataset/test/Y_test.txt")
+test_Activities <- fread(file.path(current_directory, "UCI HAR Dataset/test/Y_test.txt")
                         , col.names = c("Activity"))
-test_Subjects <- fread(file.path(path, "UCI HAR Dataset/test/subject_test.txt")
+test_Subjects <- fread(file.path(current_directory, "UCI HAR Dataset/test/subject_test.txt")
                       , col.names = c("SubjectNum"))
 test <- cbind(test_Subjects, test_Activities, test)
 
