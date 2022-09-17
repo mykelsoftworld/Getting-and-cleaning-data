@@ -1,6 +1,6 @@
 # Getting-and-cleaning-data
 ==================================================================
-##How to get to the tinyData.txt:
+##How to get to the average_per_activity_per_person.txt
 
 Download data from the link below and unzip it into working directory of R Studio.
 Execute the R script.
